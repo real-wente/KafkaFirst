@@ -26,6 +26,9 @@ public class CustomProducerCallbackPartitions {
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
 
+        //关联自定义分区器
+        //properties.put(ProducerConfig.PARTITIONER_CLASS_CONFIG,"MyPartitioner");
+
         // 3. 创建 kafka 生产者对象
         KafkaProducer<String, String> kafkaProducer = new KafkaProducer<>(properties);
 

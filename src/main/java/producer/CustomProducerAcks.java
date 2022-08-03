@@ -1,4 +1,5 @@
-import java.util.Properties;
+package producer;
+
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -13,7 +14,7 @@ import java.util.Properties;
  */
 
 
-public class CustomProducer {
+public class CustomProducerAcks {
     public static void main(String[] args) throws InterruptedException{
 
         /*
@@ -42,11 +43,18 @@ public class CustomProducer {
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
 
+        // acks
+        properties.put(ProducerConfig.ACKS_CONFIG,"1");
+
+        //重试次数
+        properties.put(ProducerConfig.RETRIES_CONFIG,"3");
+
         // 3. 创建 kafka 生产者对象
-        KafkaProducer<java.lang.String, java.lang.String> kafkaProducer = new KafkaProducer<>(properties);
+        KafkaProducer<String, String> kafkaProducer = new KafkaProducer<>(properties);
 
         // 4. 调用 send 方法,发送消息
-        for (int i = 0;i < 5;i++){
+        int num = 5;
+        for (int i = 0;i < num;i++){
             kafkaProducer.send(new ProducerRecord<>("first","Unicorn " + i));
         }
 

@@ -1,5 +1,6 @@
+package producer;
+
 import org.apache.kafka.clients.producer.*;
-import org.apache.kafka.common.protocol.types.Field;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
@@ -31,7 +32,8 @@ public class CustomProducerCallback {
         KafkaProducer<String, String> kafkaProducer = new KafkaProducer<>(properties);
 
         // 4. 调用 send 方法,发送消息
-        for (int i = 0;i<5;i++){
+        int num = 5;
+        for (int i = 0;i<num;i++){
             // 添加回调
             kafkaProducer.send(
                     new ProducerRecord<>("first", "Unicron  " + i), new Callback() {

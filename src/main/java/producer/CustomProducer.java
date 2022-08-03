@@ -1,10 +1,12 @@
+package producer;
+
+import java.util.Properties;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
-import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -13,11 +15,11 @@ import java.util.concurrent.ExecutionException;
  */
 
 
-public class CustomProducerSync {
-    public static void main(String[] args) throws InterruptedException, ExecutionException {
+public class CustomProducer {
+    public static void main(String[] args) throws InterruptedException{
 
         /*
-           同步发送
+           普通异步发送
            在topic = first 中消费数据
            1.首先在Kafka上开启消费者
            bin/kafka-console-consumer.sh --bootstrap-server hadoop1:9092 --topic first
@@ -43,15 +45,16 @@ public class CustomProducerSync {
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
 
         // 3. 创建 kafka 生产者对象
-        KafkaProducer<String, String> kafkaProducer = new KafkaProducer<>(properties);
+        KafkaProducer<java.lang.String, java.lang.String> kafkaProducer = new KafkaProducer<>(properties);
 
         // 4. 调用 send 方法,发送消息
         int num = 5;
-        for (int i = 0;i < num ;i++){
-            //此处使用get需要抛出异常,魔法值不要随便使用没有含义的数字，最好先定义变量
-            kafkaProducer.send(new ProducerRecord<>("first","Unicorn " + i)).get();
+        for (int i = 0;i < num;i++){
+            kafkaProducer.send(new ProducerRecord<>("first","Unicorn " + i));
         }
 
         kafkaProducer.close();
+
+
     }
 }

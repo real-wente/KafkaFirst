@@ -6,8 +6,6 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 
-import java.util.Properties;
-
 
 /**
  * @author wentao
@@ -45,12 +43,13 @@ public class CustomProducer {
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
 
         // 3. 创建 kafka 生产者对象
-        KafkaProducer<java.lang.String, java.lang.String> kafkaProducer = new KafkaProducer<>(properties);
+        KafkaProducer<String, String> kafkaProducer = new KafkaProducer<>(properties);
 
         // 4. 调用 send 方法,发送消息
-        int num = 5;
+        int num = 7;
         for (int i = 0;i < num;i++){
-            kafkaProducer.send(new ProducerRecord<>("first","Unicorn " + i));
+            //kafkaProducer.send(new ProducerRecord<>("first","Unicorn " + i));
+            kafkaProducer.send(new ProducerRecord<>("first",i,"test","Unicorn"));
         }
 
         kafkaProducer.close();
